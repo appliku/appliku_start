@@ -15,7 +15,7 @@ import environ
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 env = environ.Env()
-SENTRY_DSN = env("SENTRY_DSN", None)
+SENTRY_DSN = env("SENTRY_DSN", default=None)
 if SENTRY_DSN:
     sentry_sdk.init(
         dsn=SENTRY_DSN,
