@@ -1,0 +1,1 @@
+web: gunicorn appliku_start.wsgi

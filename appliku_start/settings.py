@@ -11,6 +11,32 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import environ
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+env = environ.Env()
+SENTRY_DSN = env("SENTRY_DSN", None)
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+    )
+
+    
+
+DEBUG = env.bool('DJANGO_DEBUG', False)
+
+DATABASES = {
+    'default': env.db('DATABASE_URL'),
+}
+DATABASES['default']['ATOMIC_REQUESTS'] = True  # noqa F405
+DATABASES['default']['CONN_MAX_AGE'] = env.int('CONN_MAX_AGE', default=60)  # noqa F405
+SECRET_KEY = env('DJANGO_SECRET_KEY')
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
+    ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS')
+ADMIN_URL = env('DJANGO_ADMIN_URL', default='admin/')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -18,15 +44,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '#+m%-j0_lg7ue-4_-yztx1r*u0qh5^-ed)^ig90o1tg!ie1z)8'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -68,17 +85,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'appliku_start.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
