@@ -1,13 +1,11 @@
-Django<4
+Django==3.0.4
 pytz==2019.3
-sqlparse==0.3.0
 Pillow==7.0.0
 gunicorn
 whitenoise
 sentry-sdk==0.14.2
 requests==2.23.0
 django-redis
-pytz==2019.3
 psycopg2-binary
 arrow==0.15.5
 pytest==5.3.5
@@ -20,5 +18,6 @@ django-storages==1.9.1
 django-cors-headers==3.2.1
 django-braces==1.14.0
 django-extensions==2.2.8
+django-import-export==2.0.2
 celery==4.4.1
-boto3==1.12.14
+boto3==1.12.16
