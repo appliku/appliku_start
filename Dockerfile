@@ -9,8 +9,7 @@ RUN apt-get update \
  nano python-pip gettext chrpath libssl-dev libxft-dev \
  libfreetype6 libfreetype6-dev  libfontconfig1 libfontconfig1-dev\
  && rm -rf /var/lib/apt/lists/*
-RUN pip install -r requirements.txt
 WORKDIR /code/
-COPY ./code/requirements.txt /code/
+COPY ./requirements.txt /code/
 RUN pip install -r requirements.txt
 COPY . /code/
