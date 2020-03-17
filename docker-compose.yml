@@ -1,0 +1,48 @@
+services:
+  db:
+    environment:
+    - POSTGRES_USER=website
+    - POSTGRES_PASSWORD=website
+    - POSTGRES_DB=website
+    image: postgres:12
+    mem_limit: 128m
+  rabbitmq:
+    environment:
+    - RABBITMQ_DEFAULT_USER=website
+    - RABBITMQ_DEFAULT_PASS=website
+    - RABBITMQ_DEFAULT_VHOST=website
+    image: rabbitmq
+    mem_limit: 128m
+  redis:
+    command: redis-server --requirepass website --appendonly yes
+    image: redis:5
+    mem_limit: 128m
+  release:
+    build: .
+    command: python manage.py migrate
+    environment:
+    - DJANGO_ALLOWED_HOSTS=*
+    - DJANGO_SECRET_KEY=123123123123
+    - DATABASE_URL=postgresql://website:website@db:5432/website
+    - REDIS_URL=redis://:website@redis:6379/0
+    - CELERY_BROKER_URL=amqp://website:website@rabbitmq:5672/website
+    - DJANGO_DEBUG=1
+    - PORT=8000
+    mem_limit: 128m
+  web:
+    build: .
+    command: gunicorn appliku_start.wsgi
+    environment:
+      - DJANGO_ALLOWED_HOSTS=*
+      - DJANGO_SECRET_KEY=123123123123
+      - DATABASE_URL=postgresql://website:website@db:5432/website
+      - REDIS_URL=redis://:website@redis:6379/0
+      - CELERY_BROKER_URL=amqp://website:website@rabbitmq:5672/website
+      - DJANGO_DEBUG=1
+      - PORT=8000
+    mem_limit: 128m
+    ports:
+    - 127.0.0.1:8000:8000
+    volumes:
+    - "./:/code"
+version: '2.4'

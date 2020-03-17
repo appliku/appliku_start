@@ -1,0 +1,16 @@
+FROM python:3.7
+SHELL ["/bin/bash", "-c"]
+ENV PIP_NO_CACHE_DIR off
+ENV PIP_DISABLE_PIP_VERSION_CHECK on
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 0
+RUN apt-get update \
+ && apt-get install -y --force-yes \
+ nano python-pip gettext chrpath libssl-dev libxft-dev \
+ libfreetype6 libfreetype6-dev  libfontconfig1 libfontconfig1-dev\
+ && rm -rf /var/lib/apt/lists/*
+RUN pip install -r requirements.txt
+WORKDIR /code/
+COPY ./code/requirements.txt /code/
+RUN pip install -r requirements.txt
+COPY . /code/
