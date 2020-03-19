@@ -28,6 +28,12 @@ services:
     - CELERY_BROKER_URL=amqp://website:website@rabbitmq:5672/website
     - DJANGO_DEBUG=1
     - PORT=8000
+    volumes:
+      - "./:/code"
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
     mem_limit: 128m
   web:
     build: .
@@ -44,5 +50,9 @@ services:
     ports:
     - 127.0.0.1:8000:8000
     volumes:
-    - "./:/code"
+      - "./:/code"
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
 version: '2.4'
