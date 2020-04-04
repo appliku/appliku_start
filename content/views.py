@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 
 def main_page(request, *args, **kwargs):
-    return render(request, "content/index.html")
+    return render(request, "content/base.html")
 
 
 def category_page(request, *args, **kwargs):
