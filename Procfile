@@ -1,2 +1,2 @@
-web: gunicorn appliku_start.wsgi
+web: gunicorn appliku_start.wsgi --log-file -
 release: python manage.py migrate
