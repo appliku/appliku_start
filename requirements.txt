@@ -19,5 +19,5 @@ django-cors-headers==3.2.1
 django-braces==1.14.0
 django-extensions==2.2.8
 django-import-export==2.0.2
-celery==4.4.1
+celery==5.2.2
 boto3==1.12.16
