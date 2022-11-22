@@ -1,6 +1,6 @@
 Django==3.0.7
 pytz==2019.3
-Pillow==7.0.0
+Pillow==9.3.0
 gunicorn
 whitenoise
 sentry-sdk==0.14.2
